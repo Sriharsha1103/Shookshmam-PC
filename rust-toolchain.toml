@@ -1,4 +1,7 @@
 [toolchain]
-channel = "1.82.0"
+# Bumped from 1.82: some Tauri transitive deps now require Rust edition 2024
+# (Cargo >= 1.85). The desktop binary needs this; the library crates are fine on
+# older toolchains, but we keep one pin for the whole workspace.
+channel = "1.100.0"
 components = ["rustfmt", "clippy"]
 targets = ["x86_64-pc-windows-msvc", "x86_64-unknown-linux-gnu"]

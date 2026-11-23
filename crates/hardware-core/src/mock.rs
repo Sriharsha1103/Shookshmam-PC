@@ -80,6 +80,7 @@ impl SensorProvider for SimulationProvider {
                 mk("gpu.utilization.core", "GPU Usage", SensorCategory::Utilization, osc(ts, 5000, 0.0, 99.0, 0)),
                 mk("gpu.frequency.core", "GPU Core Clock", SensorCategory::Frequency, osc(ts, 5000, 500.0, 2800.0, 0)),
                 mk("gpu.memory.used", "VRAM Used", SensorCategory::Memory, osc(ts, 12000, 2.0e9, 14.0e9, 0)),
+                mk("gpu.memory.total", "VRAM Total", SensorCategory::Memory, 16.0e9),
                 // Exercise the "unsupported" path explicitly.
                 SensorReading::without_value(
                     "gpu.fan.rpm",

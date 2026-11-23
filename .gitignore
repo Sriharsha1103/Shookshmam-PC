@@ -1,6 +1,8 @@
 node_modules/
 dist/
 target/
+# Tauri build-generated ACL/permission schemas
+apps/desktop/src-tauri/gen/
 .env
 *.db
 *.sqlite*

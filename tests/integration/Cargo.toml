@@ -11,6 +11,7 @@ path = "src/lib.rs"
 [dev-dependencies]
 shookshmam-sensor-model.workspace = true
 shookshmam-hardware-core.workspace = true
+shookshmam-device-model.workspace = true
 shookshmam-telemetry.workspace = true
 shookshmam-control.workspace = true
 shookshmam-lighting.workspace = true

@@ -36,13 +36,9 @@ impl Frame {
             return None;
         }
         let count = (width as usize).checked_mul(height as usize)?.checked_mul(4)?;
-        let mut pixels = vec![0u8; count];
-        for px in pixels.chunks_exact_mut(4) {
-            px[0] = fill.0;
-            px[1] = fill.1;
-            px[2] = fill.2;
-            px[3] = fill.3;
-        }
+        // Repeat the RGBA quad across the whole buffer (count is a multiple of 4).
+        let quad = [fill.0, fill.1, fill.2, fill.3];
+        let pixels: Vec<u8> = quad.iter().copied().cycle().take(count).collect();
         Some(Frame { width, height, pixels })
     }
 

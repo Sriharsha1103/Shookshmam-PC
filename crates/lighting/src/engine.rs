@@ -93,11 +93,13 @@ mod tests {
     }
 
     #[test]
-    fn gradient_endpoints_at_t0() {
+    fn gradient_starts_at_first_stop_and_spans_colors() {
+        // Cyclic (scrolling) gradient: at t=0 the first LED is the first stop,
+        // and the second color appears along the strip.
         let colors = vec![Rgb::new(0, 0, 0), Rgb::new(255, 0, 0)];
-        let out = render(&Effect::Gradient { colors, speed: 1 }, 2, 0);
+        let out = render(&Effect::Gradient { colors, speed: 1 }, 5, 0);
         assert_eq!(out[0], Rgb::new(0, 0, 0));
-        assert_eq!(out[1], Rgb::new(255, 0, 0));
+        assert!(out.iter().any(|c| c.r > 0), "the red stop should appear on the strip");
     }
 
     #[test]

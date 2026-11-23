@@ -77,7 +77,7 @@ impl TelemetryTracker {
         }
 
         // 2. Age out readings that were NOT in this snapshot.
-        for (_, r) in self.latest.iter_mut() {
+        for r in self.latest.values_mut() {
             if fresh_ids.contains(&r.id) {
                 continue;
             }

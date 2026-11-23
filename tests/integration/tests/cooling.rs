@@ -88,7 +88,7 @@ fn gated_controller_refuses_apply_but_allows_release() {
 
 #[test]
 fn watchdog_trip_signals_release() {
-    let mut wd = Watchdog::new(3000, 1000);
+    let wd = Watchdog::new(3000, 1000);
     assert!(!wd.is_tripped(2000));
     // No heartbeat for > timeout -> control must be released by the caller.
     assert!(wd.is_tripped(5000));

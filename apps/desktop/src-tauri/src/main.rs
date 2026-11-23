@@ -18,9 +18,14 @@ fn main() {
             // Persist history under the OS app-data directory; fall back to
             // in-memory if unavailable so the app still starts.
             let data_dir = app.path().app_data_dir().ok();
-            let history = open_history(data_dir);
+            let history = open_history(data_dir.clone());
 
             let mut core = Core::build(history);
+            // Export a flat telemetry file for external widgets (Rainmeter skin).
+            if let Some(dir) = &data_dir {
+                let _ = std::fs::create_dir_all(dir);
+                core.set_export_path(dir.join("telemetry.txt"));
+            }
             let interval = core.interval_ms().max(250);
             let handle = app.handle().clone();
 

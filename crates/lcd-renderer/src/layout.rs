@@ -265,7 +265,7 @@ mod tests {
     #[test]
     fn render_rejects_zero_target() {
         let err = render(&layout(), &snap_with(Some(50.0), SensorStatus::Available), 0, 480);
-        assert_eq!(err, Err(LayoutError::ZeroTargetDimensions));
+        assert!(matches!(err, Err(LayoutError::ZeroTargetDimensions)));
     }
 
     #[test]

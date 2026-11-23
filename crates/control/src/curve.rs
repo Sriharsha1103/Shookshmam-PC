@@ -250,7 +250,8 @@ mod tests {
     #[test]
     fn rejects_non_monotonic_duty() {
         let mut c = ok_curve();
-        c.points[2].duty_percent = 10.0; // drops below previous
+        // In-bounds (>= min_duty) but lower than the previous point.
+        c.points[2].duty_percent = 40.0; // previous point is 45
         assert_eq!(c.validate(), Err(CurveError::DutyNotMonotonic));
     }
 

@@ -67,6 +67,8 @@ pub struct Core {
     fan_curves: Vec<FanCurve>,
     lighting_zones: Vec<LightingZone>,
     profiles: Vec<Profile>,
+    /// Where to export a flat telemetry file for external widgets (Rainmeter).
+    export_path: Option<std::path::PathBuf>,
 }
 
 impl Core {
@@ -105,7 +107,49 @@ impl Core {
                 .into_iter()
                 .filter_map(|n| profile_preset(n, now_unix_ms()))
                 .collect(),
+            export_path: None,
         }
+    }
+
+    /// Set where the flat telemetry export file is written each poll.
+    pub fn set_export_path(&mut self, path: std::path::PathBuf) {
+        self.export_path = Some(path);
+    }
+
+    /// Write a flat `key=value` telemetry file for external widgets such as a
+    /// Rainmeter skin (see integrations/rainmeter). Best-effort; errors ignored.
+    fn write_export(&self, snapshot: &Snapshot) {
+        use std::fmt::Write as _;
+        let Some(path) = self.export_path.as_ref() else {
+            return;
+        };
+        let val = |id: &str| -> Option<f64> {
+            snapshot.get(id).filter(|r| r.status.carries_value()).and_then(|r| r.value)
+        };
+        let mut s = String::new();
+        let mut put = |key: &str, v: Option<f64>, dec: usize| match v {
+            Some(x) => {
+                let _ = writeln!(s, "{}={:.*}", key, dec, x);
+            }
+            None => {
+                let _ = writeln!(s, "{}=", key);
+            }
+        };
+        put("cpu_temp", val("cpu.temperature.tctl"), 1);
+        put("cpu_usage", val("cpu.utilization.total"), 0);
+        put("cpu_clock", val("cpu.frequency.core"), 0);
+        put("cpu_power", val("cpu.power.package"), 1);
+        put("gpu_temp", val("gpu.temperature.edge"), 1);
+        put("gpu_hotspot", val("gpu.temperature.hotspot"), 1);
+        put("gpu_usage", val("gpu.utilization.core"), 0);
+        put("gpu_clock", val("gpu.frequency.core"), 0);
+        put("vram_used", val("gpu.memory.used").map(|b| b / 1e9), 1);
+        put("vram_total", val("gpu.memory.total").map(|b| b / 1e9), 1);
+        put("mem_used", val("mem.used").map(|b| b / 1e9), 1);
+        put("mem_total", val("mem.total").map(|b| b / 1e9), 1);
+        put("ssd_temp", val("nvme0.temperature"), 1);
+        let _ = writeln!(s, "simulated={}", if self.config.simulated { 1 } else { 0 });
+        let _ = std::fs::write(path, s);
     }
 
     /// Run one collection + freshness + history cycle. Returns the merged
@@ -124,6 +168,7 @@ impl Core {
         self.config.simulated = !merged.readings.is_empty()
             && merged.readings.iter().all(|r| r.source == "simulation");
         self.latest = merged.clone();
+        self.write_export(&merged);
         merged
     }
 
