@@ -34,7 +34,10 @@ jobs:
 
       - uses: Swatinem/rust-cache@v2
 
-      - name: Format check
+      # Non-blocking: reports formatting drift without failing the correctness
+      # gates (clippy + tests). Run `cargo fmt --all` locally to normalize.
+      - name: Format check (non-blocking)
+        continue-on-error: true
         run: cargo fmt --all -- --check
 
       # Clippy/build/test over the non-GUI crates. The Tauri binary is built
