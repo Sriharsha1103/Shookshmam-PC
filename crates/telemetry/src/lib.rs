@@ -7,6 +7,6 @@ mod scheduler;
 mod sqlite;
 
 pub use freshness::{RingBuffer, TelemetryTracker};
-pub use history::{HistoryStore, MemoryHistory, Sample};
+pub use history::{retention_cutoff_ms, HistoryStore, MemoryHistory, Sample};
 pub use scheduler::Scheduler;
 pub use sqlite::SqliteHistory;

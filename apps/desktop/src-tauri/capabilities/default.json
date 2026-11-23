@@ -1,0 +1,7 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Core capability for the main window: lets the UI invoke the read-only telemetry commands and listen for snapshot events. No shell/fs/control permissions are granted (Phase 1 is read-only).",
+  "windows": ["main"],
+  "permissions": ["core:default"]
+}

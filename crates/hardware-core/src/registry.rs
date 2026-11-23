@@ -1,6 +1,6 @@
 use crate::provider::SensorProvider;
 use serde::Serialize;
-use shookshmam_sensor_model::{SensorReading, Snapshot};
+use shookshmam_sensor_model::{DeviceDescriptor, SensorReading, Snapshot};
 use std::panic::{catch_unwind, AssertUnwindSafe};
 
 /// Per-provider outcome of a collection pass, surfaced to diagnostics/UI.
@@ -53,6 +53,18 @@ impl Registry {
             .chain(std::iter::once(target_ms))
             .max()
             .unwrap_or(target_ms)
+    }
+
+    /// Enumerate devices across all providers (panic/error isolated). Providers
+    /// that fail discovery simply contribute nothing.
+    pub fn discover_devices(&self) -> Vec<DeviceDescriptor> {
+        let mut out = Vec::new();
+        for provider in &self.providers {
+            if let Ok(Ok(devices)) = catch_unwind(AssertUnwindSafe(|| provider.discover())) {
+                out.extend(devices);
+            }
+        }
+        out
     }
 
     /// Collect one snapshot from all providers at `now_ms`.

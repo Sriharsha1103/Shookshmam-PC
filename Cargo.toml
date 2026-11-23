@@ -26,6 +26,9 @@ shookshmam-sensor-model = { path = "crates/sensor-model" }
 shookshmam-hardware-core = { path = "crates/hardware-core" }
 shookshmam-telemetry = { path = "crates/telemetry" }
 shookshmam-lcd-renderer = { path = "crates/lcd-renderer" }
+shookshmam-adapter-linux = { path = "adapters/linux" }
+shookshmam-adapter-windows = { path = "adapters/windows" }
+shookshmam-adapter-thermalright = { path = "adapters/thermalright" }
 
 # External crates
 serde = { version = "1", features = ["derive"] }
