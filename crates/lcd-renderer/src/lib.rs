@@ -5,6 +5,8 @@
 
 mod frame;
 mod layout;
+mod transport;
 
 pub use frame::{Frame, Rgba};
 pub use layout::{render, test_pattern, Layout, LayoutError, Rect, Widget};
+pub use transport::{check_frame_dimensions, DisplayTransport, TransportError, TransportHealth};

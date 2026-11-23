@@ -24,13 +24,25 @@
 ## Specifications
 
 - [System architecture](architecture/ARCHITECTURE.md)
-- [Phase 1 — Monitoring Foundation](phase-1/PHASE-1-SPEC.md)
+- [Phase 1 — Monitoring Foundation](phase-1/PHASE-1-SPEC.md) · [Acceptance](phase-1/ACCEPTANCE.md)
 - [Phase 1 — Test Plan](phase-1/TEST-PLAN.md)
-- [Phase 2 — Lian Li Integration](phase-2/PHASE-2-SPEC.md)
+- [Phase 2 — Lian Li Integration](phase-2/PHASE-2-SPEC.md) · [Acceptance](phase-2/ACCEPTANCE.md)
 - [Phase 3 — Fan and Cooling Control](phase-3/PHASE-3-SPEC.md)
 - [Phase 4 — ARGB and Lighting](phase-4/PHASE-4-SPEC.md)
 - [Phase 5 — Profiles and Release Hardening](phase-5/PHASE-5-SPEC.md)
 - [Architecture Decision Records](adr/)
+
+## Implementation status (software)
+
+Phase software foundations are implemented and unit/integration tested on Windows + Linux in CI. All hardware **writes** remain gated behind per-capability validation and refuse until hardware-in-the-loop (HIL) validation; see each phase's `ACCEPTANCE.md`.
+
+| Phase | Software core | Hardware writes |
+|---|---|---|
+| 1 | Implemented | None (read-only) |
+| 2 | Implemented (device model, Lian Li device layer) | Gated — protocol unvalidated |
+| 3 | Planned | Gated by design |
+| 4 | Planned | Gated by design |
+| 5 | Planned | Gated by design |
 
 ## Cross-phase release gates
 
