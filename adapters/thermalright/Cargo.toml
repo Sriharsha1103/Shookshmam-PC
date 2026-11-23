@@ -7,5 +7,4 @@ authors.workspace = true
 repository.workspace = true
 
 [dependencies]
-shookshmam-sensor-model.workspace = true
 shookshmam-lcd-renderer.workspace = true
