@@ -12,5 +12,28 @@ members = [
 ]
 
 [workspace.package]
+version = "0.1.0"
 edition = "2021"
 license = "MIT"
+authors = ["Shookshmam PC contributors"]
+repository = "https://github.com/shookshmam/shookshmam-pc"
+
+# Centralized dependency versions. Member crates reference these with
+# `<crate>.workspace = true` so versions stay consistent across the workspace.
+[workspace.dependencies]
+# Internal crates
+shookshmam-sensor-model = { path = "crates/sensor-model" }
+shookshmam-hardware-core = { path = "crates/hardware-core" }
+shookshmam-telemetry = { path = "crates/telemetry" }
+shookshmam-lcd-renderer = { path = "crates/lcd-renderer" }
+
+# External crates
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+rusqlite = { version = "0.32", features = ["bundled"] }
+
+[profile.release]
+# Smaller, faster release binaries for the packaged desktop app.
+lto = true
+codegen-units = 1
+strip = true
