@@ -13,4 +13,5 @@ shookshmam-sensor-model.workspace = true
 shookshmam-hardware-core.workspace = true
 shookshmam-telemetry.workspace = true
 shookshmam-control.workspace = true
+shookshmam-lighting.workspace = true
 serde_json.workspace = true

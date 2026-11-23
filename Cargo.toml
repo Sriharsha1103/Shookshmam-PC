@@ -7,6 +7,7 @@ members = [
   "crates/lcd-renderer",
   "crates/device-model",
   "crates/control",
+  "crates/lighting",
   "adapters/windows",
   "adapters/linux",
   "adapters/thermalright",
@@ -32,6 +33,7 @@ shookshmam-telemetry = { path = "crates/telemetry" }
 shookshmam-lcd-renderer = { path = "crates/lcd-renderer" }
 shookshmam-device-model = { path = "crates/device-model" }
 shookshmam-control = { path = "crates/control" }
+shookshmam-lighting = { path = "crates/lighting" }
 shookshmam-adapter-linux = { path = "adapters/linux" }
 shookshmam-adapter-windows = { path = "adapters/windows" }
 shookshmam-adapter-thermalright = { path = "adapters/thermalright" }
