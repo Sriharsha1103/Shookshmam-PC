@@ -1,0 +1,77 @@
+{
+  "timestamp_unix_ms": 1700000000000,
+  "readings": [
+    {
+      "id": "cpu.temperature.tctl",
+      "device_id": "cpu0",
+      "name": "CPU Tctl",
+      "category": "temperature",
+      "value": 52.0,
+      "unit": "C",
+      "source": "linux-hwmon",
+      "status": "available",
+      "timestamp_unix_ms": 1700000000000,
+      "quality_note": null
+    },
+    {
+      "id": "cpu.utilization.total",
+      "device_id": "cpu0",
+      "name": "CPU Usage",
+      "category": "utilization",
+      "value": 23.0,
+      "unit": "%",
+      "source": "linux-hwmon",
+      "status": "available",
+      "timestamp_unix_ms": 1700000000000,
+      "quality_note": null
+    },
+    {
+      "id": "gpu.temperature.hotspot",
+      "device_id": "gpu0",
+      "name": "GPU Hotspot",
+      "category": "temperature",
+      "value": 61.0,
+      "unit": "C",
+      "source": "linux-hwmon",
+      "status": "stale",
+      "timestamp_unix_ms": 1699999997000,
+      "quality_note": "last-known value; provider is late"
+    },
+    {
+      "id": "gpu.fan.rpm",
+      "device_id": "gpu0",
+      "name": "GPU Fan",
+      "category": "fan_speed",
+      "value": null,
+      "unit": "RPM",
+      "source": "linux-hwmon",
+      "status": "unsupported",
+      "timestamp_unix_ms": 1700000000000,
+      "quality_note": "fan tachometer not exposed"
+    },
+    {
+      "id": "mobo.vrm.temp",
+      "device_id": "mobo0",
+      "name": "VRM Temperature",
+      "category": "temperature",
+      "value": null,
+      "unit": "C",
+      "source": "linux-hwmon",
+      "status": "permission_denied",
+      "timestamp_unix_ms": 1700000000000,
+      "quality_note": null
+    },
+    {
+      "id": "nvme0.temperature",
+      "device_id": "nvme0",
+      "name": "SSD Temperature",
+      "category": "temperature",
+      "value": 41.0,
+      "unit": "C",
+      "source": "linux-hwmon",
+      "status": "available",
+      "timestamp_unix_ms": 1700000000000,
+      "quality_note": null
+    }
+  ]
+}

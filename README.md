@@ -16,7 +16,25 @@ Cross-platform PC monitoring and control platform for Windows and Bazzite Linux.
 
 ## Repository status
 
-This is an architecture and implementation scaffold, not a finished or validated application. Hardware adapters are interfaces/placeholders until tested against the actual devices. Phase 1 contains no hardware-control command.
+Phase 1's software foundation is implemented and unit/integration tested: the normalized sensor model, the discovery registry (with per-provider panic/error isolation), the telemetry scheduler and freshness tracker, SQLite history with 30-day retention, the display-independent LCD renderer, and a live React dashboard wired over typed Tauri commands.
+
+It is **not yet validated against real hardware.** Live values currently come from a clearly-labeled simulation provider; the Windows sensor backend is a stub pending a licensing review, the Linux hwmon reader needs on-device coverage checks, and the Thermalright LCD transport refuses writes until its USB protocol is validated. Phase 1 contains no hardware-control command. See [`docs/phase-1/ACCEPTANCE.md`](docs/phase-1/ACCEPTANCE.md) for the per-item status.
+
+## Building and running
+
+Prerequisites: a Rust toolchain (pinned in `rust-toolchain.toml`), Node.js 20+, and the [Tauri 2 system dependencies](https://tauri.app/start/prerequisites/) for your OS.
+
+```sh
+# Rust core: lint and test everything except the GUI shell
+cargo test --workspace --exclude shookshmam-pc
+
+# Desktop app (installs frontend deps on first run)
+cd apps/desktop
+npm install
+npm run tauri dev      # or: npm run build  to type-check + bundle the UI
+```
+
+The CI workflow in `.github/workflows/ci.yml` runs fmt, clippy, tests (Windows + Linux) and the frontend build on every push.
 
 ## Repository layout
 
