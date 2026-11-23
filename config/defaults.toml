@@ -1,0 +1,17 @@
+[telemetry]
+sample_interval_ms = 1000
+history_retention_days = 30
+history_enabled = true
+
+[displays]
+independent_layouts = true
+thermalright_width = 1280
+thermalright_height = 480
+
+[safety]
+phase1_read_only = true
+allow_fan_writes = false
+allow_pump_writes = false
+allow_gpu_fan_writes = false
+allow_rgb_writes = false
+allow_argb_writes = false

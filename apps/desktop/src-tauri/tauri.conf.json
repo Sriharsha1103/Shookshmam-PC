@@ -1,0 +1,9 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Shookshmam PC",
+  "version": "0.1.0",
+  "identifier": "in.shookshmam.pc",
+  "build": {"beforeDevCommand": "npm run dev", "devUrl": "http://localhost:1420", "beforeBuildCommand": "npm run build", "frontendDist": "../dist"},
+  "app": {"windows": [{"title": "Shookshmam PC", "width": 1100, "height": 760, "minWidth": 760, "minHeight": 560}], "security": {"csp": null}},
+  "bundle": {"active": true, "targets": "all"}
+}

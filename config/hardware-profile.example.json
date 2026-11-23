@@ -1,0 +1,15 @@
+{
+  "profileName": "Primary Gaming PC",
+  "platforms": ["windows", "bazzite-linux"],
+  "devices": [
+    {"role": "cpu", "model": "AMD Ryzen 5 5600G"},
+    {"role": "gpu", "model": "ASRock Radeon RX 9070 16GB"},
+    {"role": "motherboard", "model": "ASUS Prime B550M-A WiFi II"},
+    {"role": "memory", "model": "Corsair Vengeance DDR4", "capacityGiB": 32},
+    {"role": "storage", "model": "Crucial P5 Plus", "capacityGiB": 1024},
+    {"role": "storage", "model": "Crucial P3", "capacityGiB": 1024},
+    {"role": "cooler", "model": "Arctic Liquid Freezer III 360 ARGB"},
+    {"role": "fan-controller", "model": "Lian Li Uni Fan TL LCD controller"},
+    {"role": "display", "model": "Thermalright Trofeo Vision", "sizeInches": 6.86, "width": 1280, "height": 480, "status": "ordered-not-yet-validated"}
+  ]
+}

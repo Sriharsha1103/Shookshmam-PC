@@ -1,0 +1,9 @@
+# Normalize line endings: LF in the repo, native on checkout where relevant.
+* text=auto eol=lf
+
+# Binary assets should never be normalized.
+*.png binary
+*.jpg binary
+*.ico binary
+*.db binary
+*.sqlite binary

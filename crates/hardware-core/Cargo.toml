@@ -1,0 +1,7 @@
+[package]
+name = "shookshmam-hardware-core"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+shookshmam-sensor-model = { path = "../sensor-model" }
