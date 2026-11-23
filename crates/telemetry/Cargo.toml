@@ -8,5 +8,5 @@ repository.workspace = true
 
 [dependencies]
 shookshmam-sensor-model.workspace = true
-shookshmam-hardware-core.workspace = true
+serde.workspace = true
 rusqlite.workspace = true

@@ -1,7 +1,7 @@
 //! Cross-crate integration tests (P1-11): the normalized sensor contract, the
 //! simulation pipeline, and the freshness + history round trip.
 
-use shookshmam_hardware_core::{mock::SimulationProvider, Registry};
+use shookshmam_hardware_core::{mock::SimulationProvider, now_unix_ms, Registry};
 use shookshmam_sensor_model::{SensorStatus, Snapshot};
 use shookshmam_telemetry::{HistoryStore, MemoryHistory, TelemetryTracker};
 
@@ -55,15 +55,17 @@ fn freshness_and_history_round_trip() {
     let mut tracker = TelemetryTracker::new(3000, 9000);
     let mut history = MemoryHistory::new();
 
-    // Two collection cycles 1s apart.
-    for now in [1_700_000_000_000i64, 1_700_000_001_000] {
+    // The simulation provider stamps readings with the wall clock, so drive the
+    // test from real "now" and query a generous window around it.
+    let base = now_unix_ms();
+    for now in [base, base + 1000] {
         let collected = reg.collect(now);
         let merged = tracker.ingest(collected.snapshot, now);
         history.insert_snapshot(&merged).unwrap();
     }
 
     let series = history
-        .query("cpu.temperature.tctl", 0, 1_700_000_002_000)
+        .query("cpu.temperature.tctl", 0, base + 60_000)
         .unwrap();
     assert_eq!(series.len(), 2, "two samples should be persisted");
     assert!(series[0].timestamp_unix_ms <= series[1].timestamp_unix_ms);

@@ -8,3 +8,4 @@ repository.workspace = true
 
 [dependencies]
 shookshmam-sensor-model.workspace = true
+serde.workspace = true
