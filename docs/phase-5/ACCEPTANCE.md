@@ -11,7 +11,7 @@ hardware and on the desktop shell wiring.
 | Item | Description | Status |
 |---|---|---|
 | P5-01 | Profile schema + versioning | Done — `Profile` (schema_version), `migrate` |
-| P5-02 | Profile editor + preview | Core done — `plan()` produces the preview; editor UI pending |
+| P5-02 | Profile editor + preview | Partial — Profiles tab previews each profile's plan + generates a support bundle; editor/apply UI pending |
 | P5-03 | Transactional apply/rollback | Done — `apply()` with per-change ack + rollback; partial ≠ success |
 | P5-04 | Cross-platform import/export + migration | Done — JSON `to_json`/`from_json`, platform compatibility, migration hook |
 | P5-05 | Startup/service lifecycle | Documented (schema flags) — OS integration is app/packaging work |

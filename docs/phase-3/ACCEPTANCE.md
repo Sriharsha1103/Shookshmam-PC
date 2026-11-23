@@ -17,7 +17,7 @@ and **no channel is validated**, so every duty write is refused (`NotValidated`)
 | P3-06 | Auto curve scheduler + smoothing | Done — `AutoController` (hysteresis + ramp-up/down limiting) |
 | P3-07 | Manual override + expiry | Done — `ManualOverride` (30-min default, persistent requires confirm) |
 | P3-08 | Watchdog, release, fault-injection | Done (logic) — `Watchdog`, safe-release paths, audit log; HIL fault tests pending |
-| P3-09 | UI curve editor + channel view | Not started |
+| P3-09 | UI curve editor + channel view | Partial — read-only Cooling tab (channels + curve previews) in the dashboard; draggable editor pending |
 | P3-10 | Staged HW validation (Win/Bazzite) | Blocked (hardware) |
 
 ## Acceptance criteria (spec §9)

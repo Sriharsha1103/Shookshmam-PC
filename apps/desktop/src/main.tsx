@@ -10,6 +10,7 @@ import type {
   Snapshot,
 } from './types';
 import { getConfig, getDiagnostics, getSnapshot, isTauri, onSnapshot } from './api';
+import { CoolingPanel, LightingPanel, ProfilesPanel } from './panels';
 
 const CATEGORY_ORDER: SensorCategory[] = [
   'temperature',
@@ -42,9 +43,17 @@ const STATUS_LABEL: Record<SensorStatus, string> = {
   error: 'error',
 };
 
+type Tab = 'monitoring' | 'cooling' | 'lighting' | 'profiles';
+const TABS: { id: Tab; label: string }[] = [
+  { id: 'monitoring', label: 'Monitoring' },
+  { id: 'cooling', label: 'Cooling' },
+  { id: 'lighting', label: 'Lighting' },
+  { id: 'profiles', label: 'Profiles' },
+];
+
 function formatValue(reading: SensorReading): string {
-  if (reading.value === null || !reading.status) return '—';
-  if (!reading.status.match(/available|stale/)) return '—';
+  if (reading.value === null) return '—';
+  if (reading.status !== 'available' && reading.status !== 'stale') return '—';
   const v = reading.value;
   switch (reading.unit) {
     case 'bytes':
@@ -87,7 +96,48 @@ function ReadingCard({ reading }: { reading: SensorReading }) {
   );
 }
 
+function MonitoringView({ snapshot, error }: { snapshot: Snapshot | null; error: string | null }) {
+  const grouped = useMemo(() => {
+    const map = new Map<SensorCategory, SensorReading[]>();
+    for (const r of snapshot?.readings ?? []) {
+      const list = map.get(r.category) ?? [];
+      list.push(r);
+      map.set(r.category, list);
+    }
+    return map;
+  }, [snapshot]);
+
+  return (
+    <>
+      {error && (
+        <section className="notice">
+          <strong>Telemetry unavailable.</strong>
+          <br />
+          {error}
+        </section>
+      )}
+      {CATEGORY_ORDER.filter((c) => grouped.has(c)).map((category) => (
+        <section key={category} className="group">
+          <h3 className="group-title">{CATEGORY_LABEL[category]}</h3>
+          <div className="grid">
+            {grouped
+              .get(category)!
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((r) => (
+                <ReadingCard key={r.id} reading={r} />
+              ))}
+          </div>
+        </section>
+      ))}
+      {!error && (snapshot?.readings.length ?? 0) === 0 && (
+        <section className="notice">Awaiting first telemetry snapshot…</section>
+      )}
+    </>
+  );
+}
+
 function App() {
+  const [tab, setTab] = useState<Tab>('monitoring');
   const [snapshot, setSnapshot] = useState<Snapshot | null>(null);
   const [config, setConfig] = useState<AppConfig | null>(null);
   const [diag, setDiag] = useState<Diagnostics | null>(null);
@@ -115,16 +165,6 @@ function App() {
     return () => unlisten?.();
   }, []);
 
-  const grouped = useMemo(() => {
-    const map = new Map<SensorCategory, SensorReading[]>();
-    for (const r of snapshot?.readings ?? []) {
-      const list = map.get(r.category) ?? [];
-      list.push(r);
-      map.set(r.category, list);
-    }
-    return map;
-  }, [snapshot]);
-
   const okProviders = diag?.providers.filter((p) => p.ok).length ?? 0;
 
   return (
@@ -133,44 +173,35 @@ function App() {
         <div>
           <p className="eyebrow">HARDWARE CONTROL CENTRE</p>
           <h1>Shookshmam PC</h1>
-          <p className="muted">Phase 1 · Monitoring foundation</p>
+          <p className="muted">Phases 1–5 · monitoring + gated control</p>
         </div>
         <span className="pill">{config?.read_only === false ? 'CONTROL' : 'READ-ONLY MODE'}</span>
       </header>
 
+      <nav className="tabs">
+        {TABS.map((t) => (
+          <button
+            key={t.id}
+            className={`tab ${tab === t.id ? 'tab-active' : ''}`}
+            onClick={() => setTab(t.id)}
+          >
+            {t.label}
+          </button>
+        ))}
+      </nav>
+
       {config?.simulated && (
         <section className="notice notice-warn">
-          <strong>Simulated data.</strong> No validated hardware provider is active, so the values
-          below come from the built-in simulation (<code>source: simulation</code>). They are not
+          <strong>Simulated data.</strong> No validated hardware provider is active, so monitoring
+          values come from the built-in simulation (<code>source: simulation</code>). They are not
           real sensor readings.
         </section>
       )}
 
-      {error && (
-        <section className="notice">
-          <strong>Telemetry unavailable.</strong>
-          <br />
-          {error}
-        </section>
-      )}
-
-      {CATEGORY_ORDER.filter((c) => grouped.has(c)).map((category) => (
-        <section key={category} className="group">
-          <h3 className="group-title">{CATEGORY_LABEL[category]}</h3>
-          <div className="grid">
-            {grouped
-              .get(category)!
-              .sort((a, b) => a.name.localeCompare(b.name))
-              .map((r) => (
-                <ReadingCard key={r.id} reading={r} />
-              ))}
-          </div>
-        </section>
-      ))}
-
-      {!error && (snapshot?.readings.length ?? 0) === 0 && (
-        <section className="notice">Awaiting first telemetry snapshot…</section>
-      )}
+      {tab === 'monitoring' && <MonitoringView snapshot={snapshot} error={error} />}
+      {tab === 'cooling' && <CoolingPanel />}
+      {tab === 'lighting' && <LightingPanel />}
+      {tab === 'profiles' && <ProfilesPanel />}
 
       <footer>
         {okProviders} active provider{okProviders === 1 ? '' : 's'} ·{' '}

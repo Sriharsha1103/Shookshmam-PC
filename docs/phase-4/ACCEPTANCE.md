@@ -15,7 +15,7 @@ an unknown electrical type or topology disables writes — is enforced and teste
 | P4-04 | ASUS ARGB discovery + read-only tests | Gated — modeled; discovery is HIL |
 | P4-05 | Lian Li RGB adapter integration | Gated — depends on Phase 2 controller validation |
 | P4-06 | Effect schema + validation | Done — `Effect` + `validate`, deterministic `render` engine |
-| P4-07 | Zone editor + preview UI | Not started |
+| P4-07 | Zone editor + preview UI | Partial — read-only Lighting tab (zones + live effect-engine preview) in the dashboard; per-zone editor pending |
 | P4-08 | Profile persistence + ownership coordination | Partial — ownership detection done; persistence is Phase 5 |
 | P4-09 | Staged HW validation + regression tests | Blocked (hardware) |
 

@@ -51,6 +51,13 @@ fn main() {
             app_core::get_diagnostics,
             app_core::get_config,
             app_core::get_history,
+            app_core::get_fan_channels,
+            app_core::get_fan_curves,
+            app_core::get_lighting_zones,
+            app_core::preview_effect,
+            app_core::list_profiles,
+            app_core::preview_profile,
+            app_core::get_support_bundle,
         ])
         .run(tauri::generate_context!())
         .expect("error while running Shookshmam PC");
