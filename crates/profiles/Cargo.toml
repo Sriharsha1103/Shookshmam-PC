@@ -1,0 +1,12 @@
+[package]
+name = "shookshmam-profiles"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+repository.workspace = true
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+shookshmam-device-model.workspace = true

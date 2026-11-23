@@ -16,9 +16,9 @@ Cross-platform PC monitoring and control platform for Windows and Bazzite Linux.
 
 ## Repository status
 
-Phase 1's software foundation is implemented and unit/integration tested: the normalized sensor model, the discovery registry (with per-provider panic/error isolation), the telemetry scheduler and freshness tracker, SQLite history with 30-day retention, the display-independent LCD renderer, and a live React dashboard wired over typed Tauri commands.
+The software foundations for all five phases are implemented and unit/integration tested on Windows + Linux in CI: the monitoring stack (Phase 1), the Lian Li device/capability layer (Phase 2), the fan-cooling safety policy and curves (Phase 3), the lighting zone/effect engine (Phase 4), and profiles with transactional apply and diagnostics (Phase 5).
 
-It is **not yet validated against real hardware.** Live values currently come from a clearly-labeled simulation provider; the Windows sensor backend is a stub pending a licensing review, the Linux hwmon reader needs on-device coverage checks, and the Thermalright LCD transport refuses writes until its USB protocol is validated. Phase 1 contains no hardware-control command. See [`docs/phase-1/ACCEPTANCE.md`](docs/phase-1/ACCEPTANCE.md) for the per-item status.
+It is **not yet validated against real hardware, and performs no hardware writes.** Every write path — fan duty, LCD frames, RGB effects — is gated behind per-capability validation and refuses (`NotValidated`/`NotImplemented`) until hardware-in-the-loop validation. Live monitoring values currently come from a clearly-labeled simulation provider. See each phase's `docs/phase-*/ACCEPTANCE.md` for per-item status and what remains hardware-gated.
 
 ## Building and running
 

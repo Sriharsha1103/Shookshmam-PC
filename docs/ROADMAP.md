@@ -29,7 +29,7 @@
 - [Phase 2 — Lian Li Integration](phase-2/PHASE-2-SPEC.md) · [Acceptance](phase-2/ACCEPTANCE.md)
 - [Phase 3 — Fan and Cooling Control](phase-3/PHASE-3-SPEC.md) · [Acceptance](phase-3/ACCEPTANCE.md)
 - [Phase 4 — ARGB and Lighting](phase-4/PHASE-4-SPEC.md) · [Acceptance](phase-4/ACCEPTANCE.md)
-- [Phase 5 — Profiles and Release Hardening](phase-5/PHASE-5-SPEC.md)
+- [Phase 5 — Profiles and Release Hardening](phase-5/PHASE-5-SPEC.md) · [Acceptance](phase-5/ACCEPTANCE.md) · [Packaging](phase-5/PACKAGING.md)
 - [Architecture Decision Records](adr/)
 
 ## Implementation status (software)
@@ -42,7 +42,7 @@ Phase software foundations are implemented and unit/integration tested on Window
 | 2 | Implemented (device model, Lian Li device layer) | Gated — protocol unvalidated |
 | 3 | Implemented (safety policy, curves, auto/manual, watchdog) | Gated — channels refuse until validated |
 | 4 | Implemented (zones, effects, write policy) | Gated — unknown electrical type disables writes |
-| 5 | Planned | Gated by design |
+| 5 | Implemented (profiles, transactional apply, diagnostics) | Via Phase 3/4 gates only |
 
 ## Cross-phase release gates
 
