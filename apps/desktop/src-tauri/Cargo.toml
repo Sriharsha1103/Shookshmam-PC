@@ -22,7 +22,11 @@ shookshmam-device-model.workspace = true
 shookshmam-control.workspace = true
 shookshmam-lighting.workspace = true
 shookshmam-profiles.workspace = true
-shookshmam-adapter-linux.workspace = true
+shookshmam-adapter-system.workspace = true
+
+# Platform-specific adapters
+[target.'cfg(target_os = "windows")'.dependencies]
 shookshmam-adapter-windows.workspace = true
-shookshmam-adapter-thermalright.workspace = true
-shookshmam-adapter-lianli.workspace = true
+
+[target.'cfg(target_os = "linux")'.dependencies]
+shookshmam-adapter-linux.workspace = true

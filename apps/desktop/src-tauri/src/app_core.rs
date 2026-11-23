@@ -8,10 +8,11 @@ use std::sync::{Arc, Mutex};
 use serde::Serialize;
 #[cfg(target_os = "linux")]
 use shookshmam_adapter_linux::HwmonProvider;
+use shookshmam_adapter_system::SystemProvider;
 #[cfg(target_os = "windows")]
 use shookshmam_adapter_windows::WindowsSensorProvider;
 use shookshmam_hardware_core::{
-    mock::SimulationProvider, now_unix_ms, CollectResult, Diagnostics, ProviderStatus, Registry,
+    now_unix_ms, CollectResult, Diagnostics, ProviderStatus, Registry,
 };
 use shookshmam_sensor_model::{DeviceDescriptor, Snapshot};
 use shookshmam_telemetry::{
@@ -78,11 +79,14 @@ impl Core {
     /// validated — every simulated reading is labeled `source = "simulation"`.
     pub fn build(history: Box<dyn HistoryStore + Send>) -> Self {
         let mut registry = Registry::new();
-        registry.register(Box::new(SimulationProvider::new()));
-        #[cfg(target_os = "linux")]
-        registry.register(Box::new(HwmonProvider::new()));
+        // Live hardware: real CPU load/frequency + memory on every platform, and
+        // temperatures/fans the OS exposes. On Windows, WMI queries motherboard/CPU
+        // temps and fan speeds. On Linux, hwmon adds board/CPU temps and fan tachometers.
+        registry.register(Box::new(SystemProvider::new()));
         #[cfg(target_os = "windows")]
         registry.register(Box::new(WindowsSensorProvider::new()));
+        #[cfg(target_os = "linux")]
+        registry.register(Box::new(HwmonProvider::new()));
 
         let config = AppConfig::default();
         let interval = registry.effective_interval_ms(config.sample_interval_ms);
@@ -434,12 +438,13 @@ mod tests {
     use super::*;
 
     #[test]
-    fn poll_produces_simulated_snapshot_and_history() {
+    fn poll_produces_live_snapshot_and_history() {
         let mut core = Core::build(Box::new(MemoryHistory::new()));
         let snap = core.poll_once(now_unix_ms());
         assert!(!snap.readings.is_empty());
         assert!(snap.validate().is_ok());
-        assert!(core.config.simulated);
+        // Real hardware provider -> not simulated.
+        assert!(!core.config.simulated);
         assert!(core.history.count().unwrap() > 0);
     }
 
@@ -449,7 +454,7 @@ mod tests {
         core.poll_once(now_unix_ms());
         let d = core.diagnostics();
         assert!(d.total_readings > 0);
-        assert!(d.providers.iter().any(|p| p.provider_id == "simulation" && p.ok));
+        assert!(d.providers.iter().any(|p| p.provider_id == "system" && p.ok));
     }
 
     #[test]
